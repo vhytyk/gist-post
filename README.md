@@ -1,3 +1,3 @@
 gist-post
 =========
-An utility that automatically create a gist link with content of current clipboard content and puts that gist link back to to clipboard
+An utility that automatically creates a gist (gist.github.com) with content of current clipboard text and puts that gist link back to to clipboard
