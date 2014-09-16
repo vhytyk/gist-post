@@ -8,8 +8,10 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Drawing;
 
 namespace GistPost
 {
@@ -28,17 +30,11 @@ namespace GistPost
         [STAThread]
         private static void Main(string[] args)
         {
-            string textToPost = Clipboard.GetText();
-            string response = PostOnGistAndGetLink(textToPost);
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(GitResponse));
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(response)))
-            {
-                GitResponse obj = (GitResponse)serializer.ReadObject(stream);
-                Clipboard.SetText("https://gist.github.com/anonymous/" + obj.id);
-                MessageBox.Show("Gist url copied to clipboard");
-            }
-            
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MyApplicationContext());
         }
+       
 
         private static string PostOnGistAndGetLink(string text)
         {
@@ -53,6 +49,50 @@ namespace GistPost
                 string response = client.UploadString("https://api.github.com/gists", json);
                 return response;
             }
+        }
+
+        class MyApplicationContext : ApplicationContext
+        {
+            //Component declarations
+            private NotifyIcon TrayIcon;
+
+            public MyApplicationContext()
+            {
+                Application.ApplicationExit += OnApplicationExit;
+                InitializeComponent();
+                TrayIcon.Visible = true;
+                string textToPost = Clipboard.GetText();
+                string response = PostOnGistAndGetLink(textToPost);
+                var serializer = new DataContractJsonSerializer(typeof(GitResponse));
+                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(response)))
+                {
+                    var responseObject = (GitResponse) serializer.ReadObject(stream);
+                    Clipboard.SetText("https://gist.github.com/anonymous/" + responseObject.id);
+
+                    TrayIcon.ShowBalloonTip(2000);
+                    new Thread(() =>
+                    {
+                        Thread.Sleep(2000);
+                        Application.Exit();
+                    }).Start();
+                }
+            }
+
+            private void InitializeComponent()
+            {
+                TrayIcon = new NotifyIcon();
+
+                TrayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                TrayIcon.BalloonTipText = "Gist link is copied to clipboard. You are free to paste it now.";
+                TrayIcon.BalloonTipTitle = "Gist clipboard";
+                TrayIcon.Icon = SystemIcons.Application;
+            }
+
+            private void OnApplicationExit(object sender, EventArgs e)
+            {
+                TrayIcon.Visible = false;
+            }
+
         }
 
         private static string CleanForJson(string s)
