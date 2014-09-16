@@ -1,0 +1,9 @@
+﻿{
+  "description": "GistPost",
+  "public": true,
+  "files": {
+    "gist.clipboard": {
+      "content": "[TextToReplace]"
+    }
+  }
+}

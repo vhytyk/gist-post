@@ -1,0 +1,6 @@
+c:\src\GistPost\GistPost\bin\Debug\GistPost.exe.config
+c:\src\GistPost\GistPost\bin\Debug\GistPost.exe
+c:\src\GistPost\GistPost\bin\Debug\GistPost.pdb
+c:\src\GistPost\GistPost\obj\x86\Debug\GistPost.exe
+c:\src\GistPost\GistPost\obj\x86\Debug\GistPost.pdb
+C:\src\GistPost\GistPost\obj\x86\Debug\GistPost.csprojResolveAssemblyReference.cache
