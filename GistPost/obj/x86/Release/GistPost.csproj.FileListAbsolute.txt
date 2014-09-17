@@ -1,0 +1,5 @@
+C:\src\GistPost\GistPost\bin\Release\GistPost.exe.config
+C:\src\GistPost\GistPost\bin\Release\GistPost.exe
+C:\src\GistPost\GistPost\bin\Release\GistPost.pdb
+C:\src\GistPost\GistPost\obj\x86\Release\GistPost.exe
+C:\src\GistPost\GistPost\obj\x86\Release\GistPost.pdb
